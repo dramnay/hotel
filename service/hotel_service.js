@@ -1,4 +1,4 @@
-const Hotel = require("../model/hotel_model");
+const { Hotel } = require("../model/hotel_model");
 
 exports.getAllHotel = async(page, limit) => {
     const parsedPage = parseInt(page);

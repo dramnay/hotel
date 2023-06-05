@@ -1,5 +1,5 @@
 const hotelService = require("../service/hotel_service");
-const Hotel = require("../model/hotel_model");
+const { Hotel } = require("../model/hotel_model");
 
 exports.createHotel = async(req, res) => {
     try {
@@ -84,5 +84,17 @@ exports.deleteHotel = async(req, res) => {
     } catch (error) {
         console.log("error in deleting Hotel ", error);
         res.status(500).send({ message: error.message });
+    }
+};
+
+exports.getReviews = async(req, res) => {
+    try {
+        const hotelId = req.params.id;
+        const hotel = await hotelService.getHotelById(hotelId);
+        console.log(hotel.reviews);
+        return res.status(200).json(hotel.reviews);
+    } catch (error) {
+        console.log("error in getting hotel ", error);
+        res.status(400).send({ message: error.message });
     }
 };
