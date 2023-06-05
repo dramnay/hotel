@@ -5,8 +5,12 @@ const PORT = process.env.PORT || 5000;
 const dbConnect = require("./config/dbUtils");
 dbConnect.initDB();
 const bodyParser = require("body-parser");
+const authRouter = require("./route/auth_route");
+
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
+
+app.use("/api/auth", authRouter);
 
 app.use((req, res, next) => {
     console.log("Hello from middleware");
