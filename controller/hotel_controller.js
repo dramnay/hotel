@@ -1,5 +1,5 @@
-const Hotel = require("../model/hotel_model");
 const hotelService = require("../service/hotel_service");
+const Hotel = require("../model/hotel_model");
 
 exports.createHotel = async(req, res) => {
     try {
@@ -81,7 +81,7 @@ exports.deleteHotel = async(req, res) => {
         const userid = req.loggedInUser;
         const result = await hotelService.deleteHotel(hotelId, userid);
         res.status(201).send({ message: result });
-    } catch {
+    } catch (error) {
         console.log("error in deleting Hotel ", error);
         res.status(500).send({ message: error.message });
     }

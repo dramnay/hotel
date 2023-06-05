@@ -7,5 +7,4 @@ router.route("/").post(verifyToken, hotelController.createHotel);
 router.route("/:id/review").post(verifyToken, hotelController.createReview);
 router.route("/").get(hotelController.getAllHotels);
 router.route("/:id").get(hotelController.getHotelById);
-router.route("/:id").delete(verifyToken, hotelController.deleteHotel);
 module.exports = router;
