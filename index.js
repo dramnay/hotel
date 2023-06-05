@@ -6,11 +6,13 @@ const dbConnect = require("./config/dbUtils");
 dbConnect.initDB();
 const bodyParser = require("body-parser");
 const authRouter = require("./route/auth_route");
+const hotelRouter = require("./route/hotel_route");
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
+app.use("/api/hotel", hotelRouter);
 
 app.use((req, res, next) => {
     console.log("Hello from middleware");
