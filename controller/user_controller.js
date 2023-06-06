@@ -1,5 +1,3 @@
-const mongoose = require("mongoose");
-const User = require("../model/user_model");
 const UserService = require("../service/user_service");
 
 exports.getUser = async(req, res) => {
