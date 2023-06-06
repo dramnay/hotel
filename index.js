@@ -5,6 +5,10 @@ const PORT = process.env.PORT || 5000;
 const dbConnect = require("./config/dbUtils");
 dbConnect.initDB();
 const bodyParser = require("body-parser");
+
+const swaggerUi = require("swagger-ui-express"),
+    swaggerDocument = require("./swagger.json");
+
 const authRouter = require("./route/auth_route");
 const hotelRouter = require("./route/hotel_route");
 const userRouter = require("./route/user_route");
@@ -20,6 +24,8 @@ app.use((req, res, next) => {
     console.log("Hello from middleware");
     next();
 });
+
+app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerDocument));
 
 process.on("SIGINT", () => {
     dbConnect.disconnectDB();

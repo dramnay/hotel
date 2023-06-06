@@ -6,7 +6,7 @@
     },
     "servers": [{
         "url": "http://localhost:9001/api",
-        "description": "hotel registration"
+        "description": "Hotel Reservation"
     }],
     "tags": [{
             "name": "Hotel",
