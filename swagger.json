@@ -1,22 +1,16 @@
 {
-    "swagger": "2.0",
+    "openapi": "3.0.0",
     "info": {
-        "version": "1.0.0",
-        "title": "Hotel Registration",
-        "description": "hotel registration API",
-        "license": {
-            "name": "MIT",
-            "url": "https://opensource.org/licenses/MIT"
-        }
+        "title": "Hotel Reservation",
+        "version": "1.0.0"
     },
     "servers": [{
         "url": "http://localhost:9001/api",
-        "description": "Hotel Registration App"
+        "description": "hotel registration"
     }],
-    "basePath": "/api",
     "tags": [{
             "name": "Hotel",
-            "description": "API for hotels in the system"
+            "description": "API for Hotels in the system"
         },
         {
             "name": "Auth",
@@ -178,177 +172,6 @@
                     }
                 }
             }
-        },
-
-        "/hotel": {
-            "post": {
-                "security": [{
-                    "bearerAuth": []
-                }],
-                "tags": ["Hotel"],
-                "summary": "add hotel",
-                "description": "add hotel",
-                "produces": ["application/json"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/definitions/Hotel"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "200": {
-                        "description": "Hotel added succesfully",
-                        "schema": {
-                            "$ref": "#/definitions/LogoutResponse"
-                        }
-                    },
-                    "400": {
-                        "description": "Error in finding total ",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            },
-            "get": {
-                "tags": ["Hotel"],
-                "summary": "get all hotel",
-                "description": "get all hotel",
-                "produces": ["application/json"],
-                "parameters": [{
-                        "name": "page",
-                        "in": "query",
-                        "description": "Page number",
-                        "required": false,
-                        "type": "integer",
-                        "default": 1
-                    },
-                    {
-                        "name": "limit",
-                        "in": "query",
-                        "description": "Number of hotels per page",
-                        "required": false,
-                        "type": "integer",
-                        "default": 5
-                    }
-                ],
-                "responses": {
-                    "200": {
-                        "description": "Hotels fetched succesfully",
-                        "schema": {
-                            "$ref": "#/definitions/AllHotelResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Error in fetching hotel ",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/hotel/{id}": {
-            "get": {
-                "tags": ["Hotel"],
-                "summary": "get hotel by id",
-                "description": "get hotel by id",
-                "produces": ["application/json"],
-                "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "description": "id of hotel to be fetched",
-                    "type": "string"
-                }],
-                "responses": {
-                    "200": {
-                        "description": "hotel fetched succesfully",
-                        "schema": {
-                            "$ref": "#/definitions/hotelResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Error in fetching hotel ",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
-        },
-        "/hotel/{id}/reviews": {
-            "get": {
-                "tags": ["hotel"],
-                "summary": "get all reviews of hotel by id",
-                "description": "get all reviews of hotel by id",
-                "produces": ["application/json"],
-                "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "description": "id of hotel to be fetched",
-                    "type": "string"
-                }],
-                "responses": {
-                    "200": {
-                        "description": "hotel reviews fetched succesfully",
-                        "schema": {
-                            "$ref": "#/definitions/AllReviewsResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Error in fetching hotel reviews",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "security": [{
-                    "bearerAuth": []
-                }],
-                "tags": ["hotel"],
-                "summary": "add review to a hotel",
-                "description": "add review to a hotel",
-                "produces": ["application/json"],
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/definitions/Reviews"
-                            }
-                        }
-                    }
-                },
-                "parameters": [{
-                    "name": "id",
-                    "in": "path",
-                    "required": true,
-                    "description": "id of hotel to which reviews will add",
-                    "type": "string"
-                }],
-                "responses": {
-                    "201": {
-                        "description": "Review added succesfully",
-                        "schema": {
-                            "$ref": "#/definitions/LogoutResponse"
-                        }
-                    },
-                    "404": {
-                        "description": "Error in fetching hotel reviews",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -364,7 +187,7 @@
     },
     "definitions": {
         "User": {
-            "required": ["name", "email", "password", "mobile", "role"],
+            "required": ["name", "email", "password", "mobile"],
             "properties": {
                 "name": {
                     "type": "string"
@@ -376,9 +199,6 @@
                     "type": "string"
                 },
                 "mobile": {
-                    "type": "string"
-                },
-                "role": {
                     "type": "string"
                 }
             }
@@ -458,79 +278,6 @@
                     "type": "string"
                 }
             }
-        },
-
-        "Reviews": {
-            "properties": {
-                "user": {
-                    "type": "string"
-                },
-                "comment": {
-                    "type": "string"
-                },
-                "rating": {
-                    "type": "number"
-                }
-            }
-        },
-
-        "hotel": {
-            "required": ["name", "url", "icon", "images", "description", "price"],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "url": {
-                    "type": "string"
-                },
-                "icon": {
-                    "type": "string"
-                },
-                "images": {
-                    "type": "array",
-                    "properties": {
-                        "type": "string"
-                    }
-                },
-                "reviews": {
-                    "type": "array",
-                    "properties": {
-                        "$ref": "#/definitions/Reviews"
-                    }
-                },
-                "category": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                }
-            },
-            "rating": {
-                "type": "number"
-            },
-            "numReviews": {
-                "type": "number"
-            },
-            "createdOn": {
-                "type": "string"
-            },
-            "createdBy": {
-                "type": "string"
-            }
-        }
-    },
-    "AllHotelResponse": {
-        "type": "array",
-        "properties": {
-            "$ref": "#/definitions/Hotel"
-        }
-    },
-    "HotelResponse": {
-        "properties": {
-            "$ref": "#/definitions/Hotel"
         }
     }
 }
