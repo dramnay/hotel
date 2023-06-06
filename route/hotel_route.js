@@ -17,6 +17,6 @@ router.get(
 );
 router.get("/search/rating/:rating", hotelController.searchByRating);
 // router.route("/:id/booking").post(hotelController.bookHotel);
-router.post("/:id/booking", bookingController.bookHotel);
+router.post("/booking", bookingController.bookHotel);
 
 module.exports = router;
