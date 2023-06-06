@@ -78,6 +78,6 @@ exports.deleteHotel = async(hotelId, userId) => {
         } else return { message: "Hotel deleted successfully" };
     } catch (error) {
         console.error(error);
-        throw new Error("Failed to delete hotel");
+        throw new Error("Failed to delete review");
     }
 };

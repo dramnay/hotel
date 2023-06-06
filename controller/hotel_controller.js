@@ -22,7 +22,9 @@ exports.createHotel = async(req, res) => {
         });
         await hotelService.createHotel(hotel);
 
-        res.status(201).send({ message: "Hotel created successfully" });
+        res
+            .status(201)
+            .json({ id: hotel._id, message: "Hotel created successfully" });
     } catch (error) {
         console.log("error in create hotel ", error);
         res.status(400).send({ message: error.message });
@@ -80,7 +82,7 @@ exports.deleteHotel = async(req, res) => {
         const hotelId = req.params.id;
         const userid = req.loggedInUser;
         const result = await hotelService.deleteHotel(hotelId, userid);
-        res.status(201).send({ message: result });
+        res.status(200).send({ message: result });
     } catch (error) {
         console.log("error in deleting Hotel ", error);
         res.status(500).send({ message: error.message });
