@@ -59,7 +59,7 @@ exports.getHotelById = async(req, res) => {
         const id = req.params.id;
         const hotel = await hotelService.getHotelById(id);
         if (!hotel) {
-            res.status(404).send("Hotel not found");
+            res.status(404).send("Hotel not found or in active");
         } else res.status(200).send(hotel);
     } catch (error) {
         console.log("error in getting hotel by id ", error);

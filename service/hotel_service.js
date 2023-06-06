@@ -36,6 +36,9 @@ exports.createHotel = async(hotel) => {
 
 exports.getHotelById = async(id) => {
     const hotel = await Hotel.findById(id);
+    if (hotel.isActive == false) {
+        throw new Error("Hotel is inactive");
+    }
     console.log(hotel);
     return hotel;
 };
@@ -71,13 +74,15 @@ exports.deleteHotel = async(hotelId, userId) => {
         const hotel = await Hotel.findById(hotelId);
         if (!hotel.createdBy == userId)
             throw new Error("Not authorized to delete hotel");
-        const deletedHotel = await Hotel.findByIdAndRemove(hotelId);
+        const deletedHotel = await Hotel.findByIdAndUpdate(hotelId, {
+            isActive: false,
+        });
         if (!deletedHotel) {
             console.log("Hotel not found");
             return { message: "Hotel do not exist" };
-        } else return { message: "Hotel deleted successfully" };
+        } else return { message: "Hotel removed successfully from list" };
     } catch (error) {
         console.error(error);
-        throw new Error("Failed to delete review");
+        throw new Error("Failed to delete Hotel");
     }
 };
