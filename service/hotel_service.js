@@ -61,6 +61,7 @@ exports.createReview = async(productId, userId, comment, rating) => {
         hotel.rating = averageRating;
 
         await Hotel.updateOne({ _id: productId }, { $set: hotel });
+        await hotel.save();
 
         return { message: "Review posted successfully" };
     } catch (error) {

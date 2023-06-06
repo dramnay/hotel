@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const hotelController = require("../controller/hotel_controller");
+const bookingController = require("../controller/booking_controller");
 const { verifyToken } = require("../controller/auth_controller");
 
 router.route("/").post(verifyToken, hotelController.createHotel);
@@ -16,5 +17,6 @@ router.get(
 );
 router.get("/search/rating/:rating", hotelController.searchByRating);
 // router.route("/:id/booking").post(hotelController.bookHotel);
+router.post("/:id/booking", bookingController.bookHotel);
 
 module.exports = router;
