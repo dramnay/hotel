@@ -7,10 +7,10 @@ dbConnect.initDB();
 const bodyParser = require("body-parser");
 const authRouter = require("./route/auth_route");
 const hotelRouter = require("./route/hotel_route");
-
+const cors = require("cors");
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(express.json());
-
+app.use(cors());
 app.use("/api/auth", authRouter);
 app.use("/api/hotel", hotelRouter);
 
