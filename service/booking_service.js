@@ -63,3 +63,27 @@ exports.bookHotel = async(
         res.status(400).send({ message: error.message });
     }
 };
+
+exports.cancelBookedHotel = async(bookingId) => {
+    try {
+        const canceledBooking = await Booking.findByIdAndDelete(bookingId);
+
+        if (canceledBooking) {
+            const { hotel, rooms } = canceledBooking;
+
+            const hotelToUpdate = await Hotel.findById(hotel);
+
+            if (hotelToUpdate) {
+                hotelToUpdate.availableRooms += rooms;
+                await hotelToUpdate.save();
+            }
+
+            return canceledBooking;
+        }
+
+        return null;
+    } catch (error) {
+        console.error(error);
+        throw new Error("An error occurred while canceling the hotel booking.");
+    }
+};
