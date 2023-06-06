@@ -67,6 +67,10 @@ const hotelSchema = new mongoose.Schema({
         required: true,
         immutable: true,
     },
+    noOfRooms: {
+        type: Number,
+        required: true,
+    },
 }, {
     timestamps: true,
 });
