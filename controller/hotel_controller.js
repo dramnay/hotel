@@ -98,7 +98,7 @@ exports.deleteHotel = async(req, res) => {
         res.status(200).send({ message: result });
     } catch (error) {
         console.log("error in deleting Hotel ", error);
-        res.status(500).send({ message: error.message });
+        res.status(400).send({ message: error.message });
     }
 };
 
@@ -120,7 +120,7 @@ exports.searchByLocation = async(req, res) => {
         const hotels = await Hotel.find({ location });
         res.json(hotels);
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(400).send({ message: error.message });
     }
 };
 
@@ -132,7 +132,7 @@ exports.searchByPriceRange = async(req, res) => {
         });
         res.json(hotels);
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(400).send({ message: error.message });
     }
 };
 
@@ -142,6 +142,6 @@ exports.searchByRating = async(req, res) => {
         const hotels = await Hotel.find({ rating: { $gte: rating } });
         res.json(hotels);
     } catch (error) {
-        res.status(500).json({ error: "Internal Server Error" });
+        res.status(400).send({ message: error.message });
     }
 };
