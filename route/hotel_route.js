@@ -2,9 +2,11 @@ const express = require("express");
 const router = express.Router();
 const hotelController = require("../controller/hotel_controller");
 const bookingController = require("../controller/booking_controller");
-const { verifyToken } = require("../controller/auth_controller");
+const { verifyToken, authorize } = require("../controller/auth_controller");
 
-router.route("/").post(verifyToken, hotelController.createHotel);
+router
+    .route("/")
+    .post(verifyToken, authorize(["Admin"]), hotelController.createHotel);
 router.route("/").get(hotelController.getAllHotels);
 router.route("/:id").delete(verifyToken, hotelController.deleteHotel);
 router.route("/:id").get(hotelController.getHotelById);

@@ -6,6 +6,7 @@ const bcrypt = require("bcrypt");
 const nodemailer = require("nodemailer");
 require("dotenv").config();
 const otpGenerator = require("otp-generator");
+const { Error } = require("mongoose");
 const accountSid = process.env.TWILIO_ACCOUNT_SID;
 const authToken = process.env.TWILIO_AUTH_TOKEN;
 const client = require("twilio")(accountSid, authToken);
@@ -168,4 +169,16 @@ exports.verifyOtpByMobile = async(req, res) => {
         console.log("Error in verifying OTP ", error);
         res.status(400).send({ message: error.message });
     }
+};
+
+exports.authorize = (roles) => {
+    return (req, res, next) => {
+        const user = req.loggedInUser;
+        console.log("In authorize " + user);
+        if (roles.includes(user.role)) {
+            next();
+        } else {
+            throw new Error("Access Denied. You are not authorized", 403);
+        }
+    };
 };
