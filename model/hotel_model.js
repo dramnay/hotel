@@ -73,7 +73,6 @@ const hotelSchema = new mongoose.Schema({
     },
     availableRooms: {
         type: Number,
-        required: true,
     },
     isActive: {
         type: Boolean,

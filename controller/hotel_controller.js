@@ -11,7 +11,6 @@ exports.createHotel = async(req, res) => {
             price,
             location,
             noOfRooms,
-            availableRooms,
             amenities,
             rating,
         } = req.body;
@@ -28,7 +27,7 @@ exports.createHotel = async(req, res) => {
             location,
             amenities,
             noOfRooms,
-            availableRooms,
+            availableRooms: noOfRooms,
             rating,
             createdBy: user._id,
             updatedBy: user._id,
