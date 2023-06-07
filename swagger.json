@@ -172,37 +172,6 @@
                     }
                 }
             }
-        },
-        "/hotel": {
-            "post": {
-                "tags": ["Hotel"],
-                "summary": "Sign Up new user in system",
-                "description": "Sign Up new user in system",
-                "requestBody": {
-                    "required": true,
-                    "content": {
-                        "application/json": {
-                            "schema": {
-                                "$ref": "#/definitions/Hotel"
-                            }
-                        }
-                    }
-                },
-                "responses": {
-                    "201": {
-                        "description": "New hotel is created",
-                        "schema": {
-                            "$ref": "#/definitions/Signup"
-                        }
-                    },
-                    "400": {
-                        "description": "Error creating hotel",
-                        "schema": {
-                            "$ref": "#/definitions/Error"
-                        }
-                    }
-                }
-            }
         }
     },
     "components": {
@@ -231,52 +200,6 @@
                 },
                 "mobile": {
                     "type": "string"
-                }
-            }
-        },
-        "Hotel": {
-            "required": [
-                "name",
-                "images",
-                "mobile",
-                "description",
-                "price",
-                "location",
-                "noOfRooms",
-                "availableRooms",
-                "amenities",
-                "rating"
-            ],
-            "properties": {
-                "name": {
-                    "type": "string"
-                },
-                "images": {
-                    "type": "string"
-                },
-                "mobile": {
-                    "type": "string"
-                },
-                "description": {
-                    "type": "string"
-                },
-                "price": {
-                    "type": "number"
-                },
-                "location": {
-                    "type": "string"
-                },
-                "noOfRooms": {
-                    "type": "number"
-                },
-                "availableRooms": {
-                    "type": "number"
-                },
-                "amenities": {
-                    "type": "string"
-                },
-                "rating": {
-                    "type": "number"
                 }
             }
         },
