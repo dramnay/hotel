@@ -74,3 +74,14 @@ exports.deleteHotel = async(hotelId, userId) => {
         return { message: "Hotel do not exist" };
     } else return { message: "Hotel removed successfully from list" };
 };
+
+exports.editHotel = async(hotelId, userId) => {
+    const hotel = await Hotel.findById(hotelId);
+    const editHotel = await Hotel.findByIdAndUpdate(hotelId, {
+        isActive: true,
+    });
+    if (!editHotel) {
+        console.log("Hotel not found");
+        return { message: "Hotel do not exist" };
+    } else return { message: "Hotel added successfully to list" };
+};

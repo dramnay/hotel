@@ -143,3 +143,15 @@ exports.searchByRating = async(req, res) => {
         res.status(400).send({ message: error.message });
     }
 };
+
+exports.editHotel = async(req, res) => {
+    try {
+        const hotelId = req.params.id;
+        const userid = req.loggedInUser;
+        const result = await hotelService.editHotel(hotelId, userid);
+        res.status(200).send({ message: result });
+    } catch (error) {
+        console.log("error in deleting Hotel ", error);
+        res.status(400).send({ message: error.message });
+    }
+};
