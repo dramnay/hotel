@@ -10,8 +10,14 @@ exports.bookHotel = async(
 ) => {
     const checkIn = new Date(checkInDate);
     const checkOut = new Date(checkOutDate);
+    if (checkIn.getTime() < Date.now()) {
+        throw new Error("Cannot book on past dates");
+    }
     if (checkIn.getTime() === checkOut.getTime()) {
         throw new Error("Check-in and check-out dates cannot be the same.");
+    }
+    if (checkIn.getTime() > checkOut.getTime()) {
+        throw new Error("Check-in should be smaller than check-out dates");
     }
 
     const existingBookings = await Booking.find({

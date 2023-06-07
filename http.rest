@@ -1,56 +1,64 @@
 @baseUrl = http://localhost:9001/api
 
-@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdlZmVkZjgzOTBkYjMwOGIxNmE5MTYiLCJuYW1lIjoiTW9udHkxIiwiZW1haWwiOiJtb250eTFAZ21haWwuY29tIiwiaWF0IjoxNjg2MTE2NjA4LCJleHAiOjE2ODYyMDMwMDh9.WuIxiKW_3rT-YpJTim2CwaVT0_TyMM2A1LOfJs50Rmw
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDgwNTQzYjJmMGQ2NmE1MDhiMjE3YjgiLCJuYW1lIjoiTW9udHk0IiwiZW1haWwiOiJtb250eTRAZ21haWwuY29tIiwiaWF0IjoxNjg2MTMxNzk0LCJleHAiOjE2ODYyMTgxOTR9.8xIQ7rfaDBAHKWyXTlxp0ucH_MDKDLeTRqQXLydLxTk
 
 @hotelId=64802b2b24b7210c89c3792e
 @userId=647efedf8390db308b16a916
+@bookingId=648060887aa5d35d13b9cea9
+
 @location=gurugram
 @minPrice=80000
 @maxPrice=9000
 @rating=6
-@bookingId=64802b4d24b7210c89c37933
+
+
+///////////auth signup
 ###
 POST {{baseUrl}}/auth/signup
 Content-Type: application/json
 
 {
-    "name":"Monty1",
-    "email":"monty1@gmail.com",
+    "name":"Monty4",
+    "email":"monty4@gmail.com",
     "password":"Password@123",
     "mobile": "+91917988471130",
-    "role":"admin"
+    "role":"Admin"
 }
 
 
-
+/////////////////// email-otp-verification
 ###
 POST {{baseUrl}}/auth/email-otp-verification
 Content-Type: application/json
 
 {
-    "email":"monty1@gmail.com",
-    "otp" : "816089"
+    "email":"monty2@gmail.com",
+    "otp" : "428942"
 }
 
 
+///////////////////  mobile-otp-verification
 ###
 POST {{baseUrl}}/auth/mobile-otp-verification
 Content-Type: application/json
 
 {
     "mobile": "+91917988471130",
-    "otp" : "816089"
+    "otp" : "428942"
 }
 
+///////////////  auth login
 ###
 POST {{baseUrl}}/auth/login
 Content-Type: application/json
 
 {
-    "email":"monty1@gmail.com",
+    "email":"monty4@gmail.com",
     "password":"Password@123"
 }
 
+
+///////////////////// auth logout
 ###
 POST {{baseUrl}}/auth/logout
 Content-Type: application/json
@@ -60,43 +68,56 @@ Authorization: bearer {{token}}
 
 ///////////////////////////////////////////////////////////////////////hotel//////////////////////////////
 
+
+
+////////////////////////////// create hotel
 ###
 POST {{baseUrl}}/hotel
 Content-Type: application/json
 Authorization: bearer {{token}}
 
 {
-    "name":"Hotel 5",
+    "name":"Hotel 10",
     "price":"6000",
     "mobile":"917027519828",
     "description":"top serving facilities",
     "location":"gurugram",
     "images":["Image 1","Image 2"],
     "amenities":["wifi","swimmingpool"],
-    "noOfRooms":40,
-    "availableRooms":40,
+    "noOfRooms":50,
     "rating":6
 }
 
 
-
+///////////////////////// get hotel 
 ###
-GET {{baseUrl}}/hotel/
+GET {{baseUrl}}/hotel/?page=01&limit=10
 Content-Type: application/json
 Authorization: bearer {{token}}
 
+
+///////////////////////// delete hotel
 ###
 DELETE {{baseUrl}}/hotel/{{hotelId}}
 Content-Type: application/json
 Authorization: bearer {{token}}
 
 
+///////////////////////// edit hotel
+###
+Patch {{baseUrl}}/hotel/{{hotelId}}
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+
+/////////////////////////get hotel by id 
 ###
 GET   {{baseUrl}}/hotel/{{hotelId}}
 Content-Type: application/json
 Authorization: bearer {{token}}
 
 
+//////////////////////create review on a specified hotel
 ###
 POST {{baseUrl}}/hotel/{{hotelId}}/review
 Content-Type: application/json
@@ -107,33 +128,40 @@ Authorization: bearer {{token}}
   "rating": 4
 }
 
+///////////////////get reviews of a hotel
+
 ###
 GET   {{baseUrl}}/hotel/{{hotelId}}/review
 Content-Type: application/json
 Authorization: bearer {{token}}
 
-
+////////////////////get all users 
 
 ###
 GET {{baseUrl}}/user/
 Content-Type: application/json
 Authorization: bearer {{token}}
 
+
+//////////////////////search hotel by location 
 ###
 GET {{baseUrl}}/hotel/search/location/{{location}}
 Content-Type: application/json
 
+
+///////////////////////search hotel by price
 ###
 GET {{baseUrl}}/hotel/search/price/{{minPrice}}/{{maxPrice}}
 Content-Type: application/json
 
+
+///////////////////////search hotel by rating 
 ###
 GET {{baseUrl}}/hotel/search/rating/{{rating}}
 Content-Type: application/json
 
 
-
-
+////////////////////book a hotel
 ###
 POST {{baseUrl}}/hotel/booking
 Content-Type: application/json
@@ -142,11 +170,12 @@ Authorization: bearer {{token}}
 {
     "hotelId":"{{hotelId}}",
     "userId":"{{userId}}",
-    "checkInDate": "2023-06-10",
-    "checkOutDate": "2023-06-12",
-    "rooms": 5
+    "checkInDate": "2023-06-08",
+    "checkOutDate": "2023-06-06",
+    "rooms":2
 }
 
+///////////////////// cancel booking of a hotel
 ###
 DELETE {{baseUrl}}/hotel/booking/{{bookingId}}
 Content-Type: application/json
