@@ -1,9 +1,11 @@
 const bookingService = require("../service/booking_service");
+const hotelService = require("../service/hotel_service");
 
 exports.bookHotel = async(req, res) => {
     try {
         const { hotelId, userId, checkInDate, checkOutDate, rooms } = req.body;
 
+        const hotel = await hotelService.getHotelById(hotelId);
         const booking = await bookingService.bookHotel(
             hotelId,
             userId,

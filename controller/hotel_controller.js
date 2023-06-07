@@ -74,6 +74,7 @@ exports.createReview = async(req, res) => {
 
         const userId = req.loggedInUser._id;
 
+        const hotel = await hotelService.getHotelById(hotelId);
         const result = await hotelService.createReview(
             hotelId,
             userId,
@@ -84,7 +85,7 @@ exports.createReview = async(req, res) => {
         res.status(201).json({ message: result });
     } catch (error) {
         console.error("error occured in adding a review", error);
-        res.status(400).json({ message: "Internal server error" });
+        res.status(400).send({ message: error.message });
     }
 };
 

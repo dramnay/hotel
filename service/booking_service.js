@@ -34,7 +34,7 @@ exports.bookHotel = async(
 
     const hotel = await Hotel.findById(hotelId);
     if (!hotel) {
-        throw new Error("Hotel not found.");
+        throw new Error("Hotel not found");
     }
 
     const availableRooms = hotel.noOfRooms - bookedRooms;
@@ -73,6 +73,4 @@ exports.cancelBookedHotel = async(bookingId) => {
 
         return canceledBooking;
     }
-
-    return null;
 };

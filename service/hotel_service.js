@@ -64,8 +64,10 @@ exports.createReview = async(hotelId, userId, comment, rating) => {
     return { message: "Review posted successfully" };
 };
 
-exports.deleteHotel = async(hotelId, userId) => {
+exports.deleteHotel = async(hotelId) => {
     const hotel = await Hotel.findById(hotelId);
+    if (hotel.isActive == false)
+        throw new Error("hotel already removed from list");
     const deletedHotel = await Hotel.findByIdAndUpdate(hotelId, {
         isActive: false,
     });
@@ -75,8 +77,10 @@ exports.deleteHotel = async(hotelId, userId) => {
     } else return { message: "Hotel removed successfully from list" };
 };
 
-exports.editHotel = async(hotelId, userId) => {
+exports.editHotel = async(hotelId) => {
     const hotel = await Hotel.findById(hotelId);
+    if (hotel.isActive == true)
+        throw new Error("Hotel already added to the list");
     const editHotel = await Hotel.findByIdAndUpdate(hotelId, {
         isActive: true,
     });
