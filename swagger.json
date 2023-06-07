@@ -5,7 +5,7 @@
         "version": "1.0.0"
     },
     "servers": [{
-        "url": "http://localhost:9001/api",
+        "url": "https:online-hotel-registration.onrender.com/api",
         "description": "Hotel Reservation"
     }],
     "tags": [{
