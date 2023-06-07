@@ -8,81 +8,71 @@ exports.bookHotel = async(
     checkOutDate,
     rooms
 ) => {
-    try {
-        const checkIn = new Date(checkInDate);
-        const checkOut = new Date(checkOutDate);
-        if (checkIn.getTime() === checkOut.getTime()) {
-            throw new Error("Check-in and check-out dates cannot be the same.");
-        }
-
-        const existingBookings = await Booking.find({
-            hotel: hotelId,
-            $or: [{
-                    checkInDate: { $lte: checkInDate },
-                    checkOutDate: { $gt: checkInDate },
-                },
-                {
-                    checkInDate: { $lt: checkOutDate },
-                    checkOutDate: { $gte: checkOutDate },
-                },
-            ],
-        });
-
-        const bookedRooms = existingBookings.reduce(
-            (total, booking) => total + booking.rooms,
-            0
-        );
-
-        const hotel = await Hotel.findById(hotelId);
-        if (!hotel) {
-            throw new Error("Hotel not found.");
-        }
-
-        const availableRooms = hotel.noOfRooms - bookedRooms;
-        if (rooms > availableRooms) {
-            throw new Error(`Only ${availableRooms} room(s) available `);
-        }
-
-        const newBooking = new Booking({
-            hotel: hotelId,
-            user: userId,
-            checkInDate,
-            checkOutDate,
-            rooms,
-        });
-
-        const savedBooking = await newBooking.save();
-
-        hotel.availableRooms = availableRooms - rooms;
-        await hotel.save();
-
-        return savedBooking;
-    } catch (error) {
-        console.error(error);
-        throw new Error("An error occurred while booking the hotel");
+    const checkIn = new Date(checkInDate);
+    const checkOut = new Date(checkOutDate);
+    if (checkIn.getTime() === checkOut.getTime()) {
+        throw new Error("Check-in and check-out dates cannot be the same.");
     }
+
+    const existingBookings = await Booking.find({
+        hotel: hotelId,
+        $or: [{
+                checkInDate: { $lte: checkInDate },
+                checkOutDate: { $gt: checkInDate },
+            },
+            {
+                checkInDate: { $lt: checkOutDate },
+                checkOutDate: { $gte: checkOutDate },
+            },
+        ],
+    });
+
+    const bookedRooms = existingBookings.reduce(
+        (total, booking) => total + booking.rooms,
+        0
+    );
+
+    const hotel = await Hotel.findById(hotelId);
+    if (!hotel) {
+        throw new Error("Hotel not found.");
+    }
+
+    const availableRooms = hotel.noOfRooms - bookedRooms;
+    if (rooms > availableRooms) {
+        throw new Error(`Only ${availableRooms} room(s) available `);
+    }
+
+    const newBooking = new Booking({
+        hotel: hotelId,
+        user: userId,
+        checkInDate,
+        checkOutDate,
+        rooms,
+    });
+
+    const savedBooking = await newBooking.save();
+
+    hotel.availableRooms = availableRooms - rooms;
+    await hotel.save();
+
+    return savedBooking;
 };
 
 exports.cancelBookedHotel = async(bookingId) => {
-    try {
-        const canceledBooking = await Booking.findByIdAndDelete(bookingId);
+    const canceledBooking = await Booking.findByIdAndDelete(bookingId);
 
-        if (canceledBooking) {
-            const { hotel, rooms } = canceledBooking;
+    if (canceledBooking) {
+        const { hotel, rooms } = canceledBooking;
 
-            const hotelToUpdate = await Hotel.findById(hotel);
+        const hotelToUpdate = await Hotel.findById(hotel);
 
-            if (hotelToUpdate) {
-                hotelToUpdate.availableRooms += rooms;
-                await hotelToUpdate.save();
-            }
-
-            return canceledBooking;
+        if (hotelToUpdate) {
+            hotelToUpdate.availableRooms += rooms;
+            await hotelToUpdate.save();
         }
 
-        return null;
-    } catch (error) {
-        console.error(error);
-        throw new Error("An error occurred while canceling the hotel booking.");
+        return canceledBooking;
     }
+
+    return null;
 };

@@ -44,45 +44,35 @@ exports.getHotelById = async(id) => {
 };
 
 exports.createReview = async(hotelId, userId, comment, rating) => {
-    try {
-        const hotel = await Hotel.findById(hotelId);
+    const hotel = await Hotel.findById(hotelId);
 
-        if (!hotel) {
-            throw new Error("Hotel not found");
-        }
-
-        const review = { user: userId, comment, rating };
-
-        hotel.reviews.push(review);
-
-        const totalReviews = hotel.reviews.length;
-        const averageRating =
-            (hotel.rating * (totalReviews - 1) + review.rating) / totalReviews;
-        hotel.rating = averageRating;
-
-        await Hotel.updateOne({ _id: hotelId }, { $set: hotel });
-
-        return { message: "Review posted successfully" };
-    } catch (error) {
-        console.error(error);
-        throw new Error("Failed to post review");
+    if (!hotel) {
+        throw new Error("Hotel not found");
     }
+
+    const review = { user: userId, comment, rating };
+
+    hotel.reviews.push(review);
+
+    const totalReviews = hotel.reviews.length;
+    const averageRating =
+        (hotel.rating * (totalReviews - 1) + review.rating) / totalReviews;
+    hotel.rating = averageRating;
+
+    await Hotel.updateOne({ _id: hotelId }, { $set: hotel });
+
+    return { message: "Review posted successfully" };
 };
 
 exports.deleteHotel = async(hotelId, userId) => {
-    try {
-        const hotel = await Hotel.findById(hotelId);
-        if (!hotel.createdBy == userId)
-            throw new Error("Not authorized to delete hotel");
-        const deletedHotel = await Hotel.findByIdAndUpdate(hotelId, {
-            isActive: false,
-        });
-        if (!deletedHotel) {
-            console.log("Hotel not found");
-            return { message: "Hotel do not exist" };
-        } else return { message: "Hotel removed successfully from list" };
-    } catch (error) {
-        console.error(error);
-        throw new Error("Failed to delete Hotel");
-    }
+    const hotel = await Hotel.findById(hotelId);
+    if (!hotel.createdBy == userId)
+        throw new Error("Not authorized to delete hotel");
+    const deletedHotel = await Hotel.findByIdAndUpdate(hotelId, {
+        isActive: false,
+    });
+    if (!deletedHotel) {
+        console.log("Hotel not found");
+        return { message: "Hotel do not exist" };
+    } else return { message: "Hotel removed successfully from list" };
 };
