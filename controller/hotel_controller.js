@@ -27,7 +27,6 @@ exports.createHotel = async(req, res) => {
             location,
             amenities,
             noOfRooms,
-            availableRooms: noOfRooms,
             rating,
             createdBy: user._id,
             updatedBy: user._id,
