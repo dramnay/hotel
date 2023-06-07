@@ -21,6 +21,7 @@ const reviewSchema = new mongoose.Schema({
 const hotelSchema = new mongoose.Schema({
     name: {
         type: String,
+        trim: true,
         required: true,
         unique: true,
     },
@@ -49,9 +50,6 @@ const hotelSchema = new mongoose.Schema({
         required: true,
     },
     rating: {
-        type: Number,
-    },
-    numReviews: {
         type: Number,
     },
     reviews: [reviewSchema],

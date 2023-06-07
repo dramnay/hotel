@@ -7,7 +7,7 @@ const { verifyToken, authorize } = require("../controller/auth_controller");
 router
     .route("/")
     .post(verifyToken, authorize(["Admin"]), hotelController.createHotel);
-router.route("/").get(hotelController.getAllHotels);
+router.route("/").get(verifyToken, hotelController.getAllHotels);
 router
     .route("/:id")
     .delete(verifyToken, authorize(["Admin"]), hotelController.deleteHotel);
@@ -24,7 +24,11 @@ router.get(
 );
 router.get("/search/rating/:rating", hotelController.searchByRating);
 // router.route("/:id/booking").post(hotelController.bookHotel);
-router.post("/booking", bookingController.bookHotel);
-router.delete("/booking/:bookingId", bookingController.cancelBookedHotel);
+router.post("/booking", verifyToken, bookingController.bookHotel);
+router.delete(
+    "/booking/:bookingId",
+    verifyToken,
+    bookingController.cancelBookedHotel
+);
 
 module.exports = router;

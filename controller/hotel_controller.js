@@ -45,8 +45,9 @@ exports.createHotel = async(req, res) => {
 exports.getAllHotels = async(req, res) => {
     const page = req.query.page || 1;
     const limit = req.query.limit || 5;
+    const user = req.loggedInUser;
     try {
-        const hotels = await hotelService.getAllHotel(page, limit);
+        const hotels = await hotelService.getAllHotel(page, limit, user);
         return res.json(hotels);
     } catch (error) {
         console.log("error in getting hotels ", error);
