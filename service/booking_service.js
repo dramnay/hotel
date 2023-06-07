@@ -53,14 +53,13 @@ exports.bookHotel = async(
 
         const savedBooking = await newBooking.save();
 
-        // Update the available rooms in the hotel
         hotel.availableRooms = availableRooms - rooms;
         await hotel.save();
 
         return savedBooking;
     } catch (error) {
         console.error(error);
-        res.status(400).send({ message: error.message });
+        throw new Error("An error occurred while booking the hotel");
     }
 };
 
