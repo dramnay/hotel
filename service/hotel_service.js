@@ -43,12 +43,12 @@ exports.getHotelById = async(id) => {
     return hotel;
 };
 
-exports.createReview = async(productId, userId, comment, rating) => {
+exports.createReview = async(hotelId, userId, comment, rating) => {
     try {
-        const hotel = await Hotel.findById(productId);
+        const hotel = await Hotel.findById(hotelId);
 
         if (!hotel) {
-            throw new Error("Product not found");
+            throw new Error("Hotel not found");
         }
 
         const review = { user: userId, comment, rating };
@@ -60,8 +60,7 @@ exports.createReview = async(productId, userId, comment, rating) => {
             (hotel.rating * (totalReviews - 1) + review.rating) / totalReviews;
         hotel.rating = averageRating;
 
-        await Hotel.updateOne({ _id: productId }, { $set: hotel });
-        await hotel.save();
+        await Hotel.updateOne({ _id: hotelId }, { $set: hotel });
 
         return { message: "Review posted successfully" };
     } catch (error) {
