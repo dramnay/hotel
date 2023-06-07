@@ -1,0 +1,153 @@
+@baseUrl = http://localhost:9001/api
+
+@token = eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NDdlZmVkZjgzOTBkYjMwOGIxNmE5MTYiLCJuYW1lIjoiTW9udHkxIiwiZW1haWwiOiJtb250eTFAZ21haWwuY29tIiwiaWF0IjoxNjg2MTE2NjA4LCJleHAiOjE2ODYyMDMwMDh9.WuIxiKW_3rT-YpJTim2CwaVT0_TyMM2A1LOfJs50Rmw
+
+@hotelId=64802b2b24b7210c89c3792e
+@userId=647efedf8390db308b16a916
+@location=gurugram
+@minPrice=80000
+@maxPrice=9000
+@rating=6
+@bookingId=64802b4d24b7210c89c37933
+###
+POST {{baseUrl}}/auth/signup
+Content-Type: application/json
+
+{
+    "name":"Monty1",
+    "email":"monty1@gmail.com",
+    "password":"Password@123",
+    "mobile": "+91917988471130",
+    "role":"admin"
+}
+
+
+
+###
+POST {{baseUrl}}/auth/email-otp-verification
+Content-Type: application/json
+
+{
+    "email":"monty1@gmail.com",
+    "otp" : "816089"
+}
+
+
+###
+POST {{baseUrl}}/auth/mobile-otp-verification
+Content-Type: application/json
+
+{
+    "mobile": "+91917988471130",
+    "otp" : "816089"
+}
+
+###
+POST {{baseUrl}}/auth/login
+Content-Type: application/json
+
+{
+    "email":"monty1@gmail.com",
+    "password":"Password@123"
+}
+
+###
+POST {{baseUrl}}/auth/logout
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+
+
+///////////////////////////////////////////////////////////////////////hotel//////////////////////////////
+
+###
+POST {{baseUrl}}/hotel
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+{
+    "name":"Hotel 5",
+    "price":"6000",
+    "mobile":"917027519828",
+    "description":"top serving facilities",
+    "location":"gurugram",
+    "images":["Image 1","Image 2"],
+    "amenities":["wifi","swimmingpool"],
+    "noOfRooms":40,
+    "availableRooms":40,
+    "rating":6
+}
+
+
+
+###
+GET {{baseUrl}}/hotel/
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+###
+DELETE {{baseUrl}}/hotel/{{hotelId}}
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+
+###
+GET   {{baseUrl}}/hotel/{{hotelId}}
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+
+###
+POST {{baseUrl}}/hotel/{{hotelId}}/review
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+{
+  "comment": "hotel!",
+  "rating": 4
+}
+
+###
+GET   {{baseUrl}}/hotel/{{hotelId}}/review
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+
+
+###
+GET {{baseUrl}}/user/
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+###
+GET {{baseUrl}}/hotel/search/location/{{location}}
+Content-Type: application/json
+
+###
+GET {{baseUrl}}/hotel/search/price/{{minPrice}}/{{maxPrice}}
+Content-Type: application/json
+
+###
+GET {{baseUrl}}/hotel/search/rating/{{rating}}
+Content-Type: application/json
+
+
+
+
+###
+POST {{baseUrl}}/hotel/booking
+Content-Type: application/json
+Authorization: bearer {{token}}
+
+{
+    "hotelId":"{{hotelId}}",
+    "userId":"{{userId}}",
+    "checkInDate": "2023-06-10",
+    "checkOutDate": "2023-06-12",
+    "rooms": 5
+}
+
+###
+DELETE {{baseUrl}}/hotel/booking/{{bookingId}}
+Content-Type: application/json
+Authorization: bearer {{token}}
