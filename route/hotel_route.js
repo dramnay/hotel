@@ -8,7 +8,9 @@ router
     .route("/")
     .post(verifyToken, authorize(["Admin"]), hotelController.createHotel);
 router.route("/").get(hotelController.getAllHotels);
-router.route("/:id").delete(verifyToken, hotelController.deleteHotel);
+router
+    .route("/:id")
+    .delete(verifyToken, authorize(["Admin"]), hotelController.deleteHotel);
 router.route("/:id").get(hotelController.getHotelById);
 router.route("/:id/review").post(verifyToken, hotelController.createReview);
 router.route("/:id/review").get(hotelController.getReviews);
