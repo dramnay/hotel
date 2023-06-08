@@ -45,13 +45,12 @@ exports.createHotel = async(hotel) => {
     return hotel.id;
 };
 
-exports.getHotelById = async(id) => {
-    const hotel = await Hotel.findById(id);
-    if (hotel.isActive == false) {
-        throw new Error("Hotel is inactive");
+exports.getHotelById = async(id, user) => {
+    if (user.role == "Admin") {
+        const hotel = await Hotel.findById(id);
+        console.log(hotel);
+        return hotel;
     }
-    console.log(hotel);
-    return hotel;
 };
 
 exports.createReview = async(hotelId, userId, comment, rating) => {
