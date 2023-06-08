@@ -1,42 +1,38 @@
 const { Hotel } = require("../model/hotel_model");
+const jwt = require("jsonwebtoken");
+const User = require("../model/user_model");
 
-exports.getAllHotel = async(page, limit, user) => {
-    const parsedPage = parseInt(page);
-    const parsedLimit = parseInt(limit);
-
-    if (parsedPage < 0 || parsedLimit < 0)
-        throw new Error(`Please enter a positive value for page number or limit`);
-
-    const skipIndex = (parsedPage - 1) * parsedLimit;
-
-    let pipeline = [{
-            $project: {
+exports.getAllHotel = async(token) => {
+    const hotels = await Hotel.find({ isActive: true }).select({
+        _id: 1,
+        name: 1,
+        images: 1,
+        price: 1,
+        description: 1,
+        createdOn: 1,
+    });
+    if (!hotels[0]) throw new Error("Hotel not found");
+    if (!token) {
+        return hotels;
+    } else {
+        const decoded = token.split(" ")[1];
+        const verify = jwt.verify(decoded, process.env.ACCESS_TOKEN_SECRET);
+        console.log(verify);
+        const user = await User.findById(verify._id);
+        // console.log(user.role);
+        if (user.role == "User") {
+            return hotels;
+        } else {
+            return await Hotel.find().select({
                 _id: 1,
                 name: 1,
                 images: 1,
                 price: 1,
                 description: 1,
                 createdOn: 1,
-                isActive: 1,
-            },
-        },
-        { $skip: skipIndex },
-        { $limit: parsedLimit },
-    ];
-
-    if (user.role !== "Admin") {
-        pipeline.unshift({
-            $match: {
-                isActive: true,
-            },
-        });
+            });
+        }
     }
-
-    const hotels = await Hotel.aggregate(pipeline);
-
-    if (!hotels[0]) throw new Error("Hotel not found");
-
-    return hotels;
 };
 
 exports.createHotel = async(hotel) => {

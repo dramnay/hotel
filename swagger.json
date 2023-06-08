@@ -346,12 +346,19 @@
                 "tags": ["Hotel"],
                 "summary": "get reviews of Hotel",
                 "description": "get all  reviews of Hotels",
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "id of Hotel to be Reviewed",
+                    "type": "string"
+                }],
                 "produces": ["application/json"],
                 "responses": {
                     "200": {
                         "description": "Hotel created successfully",
                         "schema": {
-                            "$ref": "#/definitions/AllHotelResponse"
+                            "$ref": "#/definitions/AllReviewResponse"
                         }
                     },
                     "400": {
@@ -577,6 +584,13 @@
             "type": "array",
             "properties": {
                 "$ref": "#/definitions/Hotel"
+            }
+        },
+
+        "AllReviewResponse": {
+            "type": "array",
+            "properties": {
+                "$ref": "#/definitions/ReviewHotel"
             }
         },
         "Error": {
