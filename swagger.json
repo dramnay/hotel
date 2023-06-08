@@ -5,7 +5,7 @@
         "version": "1.0.0"
     },
     "servers": [{
-        "url": "https:online-hotel-registration.onrender.com/api",
+        "url": "https://online-hotel-registration.onrender.com/api",
         "description": "Hotel Reservation"
     }],
     "tags": [{
@@ -537,12 +537,15 @@
     },
     "definitions": {
         "User": {
-            "required": ["name", "email", "password", "role"],
+            "required": ["name", "email", "mobile", "password", "role"],
             "properties": {
                 "name": {
                     "type": "string"
                 },
                 "email": {
+                    "type": "string"
+                },
+                "mobile": {
                     "type": "string"
                 },
                 "password": {
