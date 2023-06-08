@@ -7,7 +7,7 @@ const { verifyToken, authorize } = require("../controller/auth_controller");
 router
     .route("/")
     .post(verifyToken, authorize(["Admin"]), hotelController.createHotel);
-router.route("/").get(verifyToken, hotelController.getAllHotels);
+router.route("/").get(hotelController.getAllHotels);
 router
     .route("/:id")
     .delete(verifyToken, authorize(["Admin"]), hotelController.deleteHotel);

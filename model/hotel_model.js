@@ -27,11 +27,13 @@ const hotelSchema = new mongoose.Schema({
     },
     mobile: {
         type: String,
-        // required: true,
+        required: true,
+        match: [/^[0-9]{10}$/, "Please enter a valid mobile number."],
     },
     images: {
-        type: [String],
+        type: Array,
         required: true,
+        of: String,
     },
     description: {
         type: String,
@@ -46,8 +48,9 @@ const hotelSchema = new mongoose.Schema({
         required: true,
     },
     amenities: {
-        type: [String],
+        type: Array,
         required: true,
+        of: String,
     },
     rating: {
         type: Number,

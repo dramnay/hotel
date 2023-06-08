@@ -9,12 +9,16 @@
         "description": "Hotel Reservation"
     }],
     "tags": [{
+            "name": "Auth",
+            "description": "API for authorization in the system"
+        },
+        {
             "name": "Hotel",
             "description": "API for Hotels in the system"
         },
         {
-            "name": "Auth",
-            "description": "API for authorization in the system"
+            "name": "User",
+            "description": "API for Users in the system"
         }
     ],
     "schemes": ["http"],
@@ -95,7 +99,7 @@
                 "produces": ["application/json"],
                 "responses": {
                     "200": {
-                        "description": "User logged in and token generated",
+                        "description": "User logged out successfully",
                         "schema": {
                             "$ref": "#/definitions/LogoutResponse"
                         }
@@ -172,6 +176,321 @@
                     }
                 }
             }
+        },
+        "/hotel": {
+            "post": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["Hotel"],
+                "summary": "create Hotel",
+                "description": "create Hotel",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/Hotel"
+                            }
+                        }
+                    }
+                },
+                "produces": ["application/json"],
+                "responses": {
+                    "201": {
+                        "description": "Hotel created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in creating Hotel",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["Hotel"],
+                "summary": "get all Hotels",
+                "description": "get all Hotels",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Hotel created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/AllHotelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in fetching Hotels",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/hotel/{id}": {
+            "get": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["Hotel"],
+                "summary": "get all Hotels",
+                "description": "get all Hotels",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "id of Hotel to be fetched",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Hotel fetched successfully",
+                        "schema": {
+                            "$ref": "#/definitions/Hotel"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in fetching Hotels",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["Hotel"],
+                "summary": "delete Hotels",
+                "description": "delete Hotels",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "id of Hotel to be fetched",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Hotel deleted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in deleting Hotels",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+
+        "/hotel/{id}/review": {
+            "post": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["Hotel"],
+                "summary": "Review Hotel",
+                "description": "review Hotel",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/ReviewHotel"
+                            }
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "id of Hotel to be Reviewed",
+                    "type": "string"
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Hotel created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in creating Hotel",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "get": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["Hotel"],
+                "summary": "get reviews of Hotel",
+                "description": "get all  reviews of Hotels",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Hotel created successfully",
+                        "schema": {
+                            "$ref": "#/definitions/AllHotelResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in fetching Hotels",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/Hotel/status/{id}": {
+            "post": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["Hotel"],
+                "summary": "change status of Hotel",
+                "description": "change status of Hotel",
+                "requestBody": {
+                    "required": true,
+                    "content": {
+                        "application/json": {
+                            "schema": {
+                                "$ref": "#/definitions/HotelStatus"
+                            }
+                        }
+                    }
+                },
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "id of Hotel to change status",
+                    "type": "string"
+                }],
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Hotel status changed successfully",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in changing status of Hotel",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/user/": {
+            "get": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["User"],
+                "summary": "get all users",
+                "description": "get all users",
+                "produces": ["application/json"],
+                "responses": {
+                    "200": {
+                        "description": "Allusers fetched successfully",
+                        "schema": {
+                            "$ref": "#/definitions/AllUserResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in fetching users",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
+        },
+        "/admin/user/{id}": {
+            "get": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["User"],
+                "summary": "get a user",
+                "description": "get a user",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "id of user to be fetched",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "user fetched successfully",
+                        "schema": {
+                            "$ref": "#/definitions/User"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in fetching user",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+            "delete": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["User"],
+                "summary": "delete user",
+                "description": "delete user",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "id of user to be delete",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "user had become In-Active",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in deleting user",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            }
         }
     },
     "components": {
@@ -187,7 +506,7 @@
     },
     "definitions": {
         "User": {
-            "required": ["name", "email", "password", "mobile"],
+            "required": ["name", "email", "password", "role"],
             "properties": {
                 "name": {
                     "type": "string"
@@ -198,9 +517,15 @@
                 "password": {
                     "type": "string"
                 },
-                "mobile": {
+                "role": {
                     "type": "string"
                 }
+            }
+        },
+        "AllUserResponse": {
+            "type": "array",
+            "properties": {
+                "$ref": "#/definitions/User"
             }
         },
         "Signup": {
@@ -212,6 +537,12 @@
                 "message": {
                     "type": "string"
                 }
+            }
+        },
+        "AllHotelResponse": {
+            "type": "array",
+            "properties": {
+                "$ref": "#/definitions/Hotel"
             }
         },
         "Error": {
@@ -233,6 +564,17 @@
                 }
             }
         },
+        "ReviewHotel": {
+            "required": ["ReviewHotel"],
+            "properties": {
+                "comment": {
+                    "type": "string"
+                },
+                "rating": {
+                    "type": "number"
+                }
+            }
+        },
         "LoginResponse": {
             "required": ["token"],
             "properties": {
@@ -245,6 +587,14 @@
             "required": ["token"],
             "properties": {
                 "token": {
+                    "type": "string"
+                }
+            }
+        },
+        "HotelStatus": {
+            "required": ["status"],
+            "properties": {
+                "status": {
                     "type": "string"
                 }
             }
@@ -276,6 +626,50 @@
                 },
                 "otp": {
                     "type": "string"
+                }
+            }
+        },
+        "Hotel": {
+            "required": [
+                "name",
+                "images",
+                "description",
+                "price",
+                "location",
+                "noOfRooms",
+                "amenities",
+                "rating"
+            ],
+            "properties": {
+                "name": {
+                    "type": "string"
+                },
+                "images": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "description": {
+                    "type": "string"
+                },
+                "price": {
+                    "type": "number"
+                },
+                "location": {
+                    "type": "string"
+                },
+                "noOfRooms": {
+                    "type": "number"
+                },
+                "amenities": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                },
+                "rating": {
+                    "type": "number"
                 }
             }
         }
