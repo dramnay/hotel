@@ -1,13 +1,7 @@
 const Booking = require("../model/booking_model");
 const { Hotel } = require("../model/hotel_model");
 
-exports.bookHotel = async(
-    hotelId,
-    userId,
-    checkInDate,
-    checkOutDate,
-    rooms
-) => {
+exports.bookHotel = async(hotelId, user, checkInDate, checkOutDate, rooms) => {
     const checkIn = new Date(checkInDate);
     const checkOut = new Date(checkOutDate);
     if (checkIn.getTime() < Date.now()) {
@@ -50,7 +44,7 @@ exports.bookHotel = async(
 
     const newBooking = new Booking({
         hotel: hotelId,
-        user: userId,
+        user: user._id,
         checkInDate,
         checkOutDate,
         rooms,

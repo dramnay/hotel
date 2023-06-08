@@ -16,7 +16,7 @@ router
     .patch(verifyToken, authorize(["Admin"]), hotelController.editHotel);
 router.route("/:id").get(verifyToken, hotelController.getHotelById);
 router.route("/:id/review").post(verifyToken, hotelController.createReview);
-router.route("/:id/review").get(hotelController.getReviews);
+router.route("/:id/review").get(verifyToken, hotelController.getReviews);
 router.get("/search/location/:location", hotelController.searchByLocation);
 router.get(
     "/search/price/:minPrice/:maxPrice",

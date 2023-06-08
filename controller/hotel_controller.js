@@ -59,7 +59,7 @@ exports.getHotelById = async(req, res) => {
     try {
         const id = req.params.id;
         const user = req.loggedInUser;
-        const hotel = await hotelService.getHotelById(id, user);
+        const hotel = await hotelService.getHotelById(user, id);
         if (!hotel) {
             res.status(404).send("Hotel not found");
         } else res.status(200).send(hotel);
@@ -74,17 +74,19 @@ exports.createReview = async(req, res) => {
         const hotelId = req.params.id;
         const { comment, rating } = req.body;
 
-        const userId = req.loggedInUser._id;
+        const user = req.loggedInUser;
 
-        const hotel = await hotelService.getHotelById(hotelId);
+        const hotel = await hotelService.getHotelById(user, hotelId);
         const result = await hotelService.createReview(
             hotelId,
-            userId,
+            user,
             comment,
             rating
         );
 
-        res.status(201).json({ message: result });
+        res
+            .status(201)
+            .json({ id: result._id, message: "Review created successfully" });
     } catch (error) {
         console.error("error occured in adding a review", error);
         res.status(400).send({ message: error.message });
@@ -106,8 +108,9 @@ exports.deleteHotel = async(req, res) => {
 exports.getReviews = async(req, res) => {
     try {
         const hotelId = req.params.id;
-        const hotel = await hotelService.getHotelById(hotelId);
-        console.log(hotel.reviews);
+        const user = req.loggedInUser;
+        const hotel = await hotelService.getHotelById(user, hotelId);
+        console.log(hotel);
         return res.status(200).json(hotel.reviews);
     } catch (error) {
         console.log("error in getting hotel ", error);

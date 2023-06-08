@@ -178,7 +178,7 @@ exports.authorize = (roles) => {
         if (roles.includes(user.role)) {
             next();
         } else {
-            throw new Error("Access Denied. You are not authorized", 403);
+            res.status(401).send({ message: "you are not authorized" });
         }
     };
 };

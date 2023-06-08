@@ -45,22 +45,20 @@ exports.createHotel = async(hotel) => {
     return hotel.id;
 };
 
-exports.getHotelById = async(id, user) => {
-    if (user.role == "Admin") {
-        const hotel = await Hotel.findById(id);
-        console.log(hotel);
-        return hotel;
-    }
+exports.getHotelById = async(user, id) => {
+    const hotel = await Hotel.findById(id);
+    console.log(hotel);
+    return hotel;
 };
 
-exports.createReview = async(hotelId, userId, comment, rating) => {
+exports.createReview = async(hotelId, user, comment, rating) => {
     const hotel = await Hotel.findById(hotelId);
 
     if (!hotel) {
         throw new Error("Hotel not found");
     }
 
-    const review = { user: userId, comment, rating };
+    const review = { user: user._id, comment, rating };
 
     hotel.reviews.push(review);
 
