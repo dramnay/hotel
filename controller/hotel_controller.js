@@ -84,9 +84,7 @@ exports.createReview = async(req, res) => {
             rating
         );
 
-        res
-            .status(201)
-            .json({ id: result._id, message: "Review created successfully" });
+        res.status(201).json({ message: "Review created successfully" });
     } catch (error) {
         console.error("error occured in adding a review", error);
         res.status(400).send({ message: error.message });
@@ -131,6 +129,8 @@ exports.searchByLocation = async(req, res) => {
 exports.searchByPriceRange = async(req, res) => {
     try {
         const { minPrice, maxPrice } = req.params;
+        if (Number(minPrice) > Number(maxPrice))
+            throw new Error("min price should be smaller");
         const hotels = await Hotel.find({
             price: { $gte: minPrice, $lte: maxPrice },
         });
