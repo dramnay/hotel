@@ -132,7 +132,7 @@ exports.verifyOtpByEmail = async(req, res) => {
             return res.status(400).json({ message: "Invalid OTP" });
         }
 
-        await User.updateOne({ email: email }, { emailVerified: true });
+        await User.updateOne({ email: email }, { emailVerified: true, isActive: true });
         const userInDB = await User.findOne({ email: email });
         if (userInDB.mobileVerified == true) await Otp.deleteOne({ email: email });
 
@@ -158,7 +158,7 @@ exports.verifyOtpByMobile = async(req, res) => {
             return res.status(400).json({ message: "Invalid OTP" });
         }
 
-        await User.updateOne({ mobile: mobile }, { mobileVerified: true });
+        await User.updateOne({ mobile: mobile }, { mobileVerified: true, isActive: true });
         const userInDB = await User.findOne({ mobile: mobile });
         if (userInDB.emailVerified == true) await Otp.deleteOne({ mobile: mobile });
 
