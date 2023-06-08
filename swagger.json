@@ -363,20 +363,20 @@
                 }
             }
         },
-        "/Hotel/status/{id}": {
+        "/hotel/booking": {
             "post": {
                 "security": [{
                     "bearerAuth": []
                 }],
                 "tags": ["Hotel"],
-                "summary": "change status of Hotel",
-                "description": "change status of Hotel",
+                "summary": "booking of Hotel",
+                "description": "Book Hotel",
                 "requestBody": {
                     "required": true,
                     "content": {
                         "application/json": {
                             "schema": {
-                                "$ref": "#/definitions/HotelStatus"
+                                "$ref": "#/definitions/BookHotel"
                             }
                         }
                     }
@@ -398,6 +398,37 @@
                     },
                     "400": {
                         "description": "Error in changing status of Hotel",
+                        "schema": {
+                            "$ref": "#/definitions/Error"
+                        }
+                    }
+                }
+            },
+
+            "delete": {
+                "security": [{
+                    "bearerAuth": []
+                }],
+                "tags": ["Hotel"],
+                "summary": "cancel bookedHotel",
+                "description": "cancel bookedHotel",
+                "produces": ["application/json"],
+                "parameters": [{
+                    "name": "id",
+                    "in": "path",
+                    "required": true,
+                    "description": "id of Hotel to be fetched",
+                    "type": "string"
+                }],
+                "responses": {
+                    "200": {
+                        "description": "Hotel deleted successfully",
+                        "schema": {
+                            "$ref": "#/definitions/LogoutResponse"
+                        }
+                    },
+                    "400": {
+                        "description": "Error in deleting Hotels",
                         "schema": {
                             "$ref": "#/definitions/Error"
                         }
@@ -591,11 +622,17 @@
                 }
             }
         },
-        "HotelStatus": {
+        "BookHotel": {
             "required": ["status"],
             "properties": {
-                "status": {
+                "checkInDate": {
                     "type": "string"
+                },
+                "checkOutDate": {
+                    "type": "string"
+                },
+                "rooms": {
+                    "type": "number"
                 }
             }
         },

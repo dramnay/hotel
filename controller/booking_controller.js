@@ -3,7 +3,8 @@ const hotelService = require("../service/hotel_service");
 
 exports.bookHotel = async(req, res) => {
     try {
-        const { hotelId, checkInDate, checkOutDate, rooms } = req.body;
+        const hotelId = req.params.id;
+        const { checkInDate, checkOutDate, rooms } = req.body;
         const user = req.loggedInUser;
 
         const hotel = await hotelService.getHotelById(user, hotelId);
