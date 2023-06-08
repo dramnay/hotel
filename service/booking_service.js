@@ -42,18 +42,19 @@ exports.bookHotel = async(hotelId, user, checkInDate, checkOutDate, rooms) => {
         throw new Error(`Only ${availableRooms} room(s) available `);
     }
 
+    const noOfDays = (checkOut - checkIn) / 86400000;
+    const cost = noOfDays * rooms * hotel.price;
+
     const newBooking = new Booking({
         hotel: hotelId,
         user: user._id,
         checkInDate,
         checkOutDate,
         rooms,
+        cost,
     });
 
     const savedBooking = await newBooking.save();
-
-    hotel.availableRooms = availableRooms - rooms;
-    await hotel.save();
 
     return savedBooking;
 };
